@@ -1,17 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import store from "./store/store"; // Correctly importing the store
+import App from "./App";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const theme = createTheme({
+  palette: {
+    background: {
+      default: "#D3D3D3", // Setting the desired background color to black
+    },
+    primary: {
+      main: "#1976d2",
+    },
+    secondary: {
+      main: "#dc004e",
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundColor: "#D3D3D3", // Matching this to the palette background color
+        },
+      },
+    },
+  },
+});
+
+ReactDOM.render(
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </Provider>,
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

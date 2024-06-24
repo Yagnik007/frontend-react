@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/productSlice";
-import { addCartItem, addItemToCart } from "../store/cartSlice"; // Import the addToCart action
+import { addCartItem } from "../store/cartSlice"; // Import the addToCart action
 import {
   Grid,
   Card,
@@ -13,10 +13,13 @@ import {
   Container,
   Button,
 } from "@mui/material";
+import ProductModal from "../components/ProductModal";
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.product);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -31,8 +34,17 @@ const HomePage = () => {
   }
 
   const handleAddToCart = (product) => {
-    console.log("hello")
     dispatch(addCartItem(product)); // Dispatch the addToCart action with the selected product
+  };
+
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProduct(null);
+    setModalOpen(false);
   };
 
   return (
@@ -44,15 +56,17 @@ const HomePage = () => {
       <Grid container spacing={3}>
         {products.map((product) => (
           <Grid item key={product.id} xs={12} sm={6} md={4}>
-            <Card sx={{ backgroundColor: "#bdbdbd" }}>
+            <Card
+              sx={{ backgroundColor: "#bdbdbd" }}
+              onClick={() => handleOpenModal(product)}
+            >
               <CardMedia
                 component="img"
                 alt={product.name}
-                height="200" // Adjust the height to make the image smaller
-                // width="100%" // Ensure the image fits the width of the card
+                height="200"
                 image={product.image}
                 title={product.name}
-                sx={{ margin: "10px", objectFit: "contain" }} // Ensure the entire image is visible without distortion
+                sx={{ margin: "10px", objectFit: "contain", cursor: "pointer" }}
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -85,6 +99,13 @@ const HomePage = () => {
           </Grid>
         ))}
       </Grid>
+
+      {/* Render the ProductModal */}
+      <ProductModal
+        product={selectedProduct}
+        open={modalOpen}
+        onClose={handleCloseModal}
+      />
     </Container>
   );
 };

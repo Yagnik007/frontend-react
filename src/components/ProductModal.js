@@ -1,6 +1,7 @@
 import React from "react";
 import { addCartItem } from "../store/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { checkUser } from "../store/authSlice";
 import {
   Dialog,
   DialogContent,
@@ -13,10 +14,16 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const ProductModal = ({ product, open, onClose}) => {
+const ProductModal = ({ product, open, onClose }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
   const onAddToCart = (product) => {
-    dispatch(addCartItem(product)); // Dispatch the addToCart action with the selected product
+    if (!user) {
+      return;
+    }
+    const item = { ...product, userId: user.id }; // Add user ID to product item
+    dispatch(addCartItem(item));
   };
 
   if (!product) return null;

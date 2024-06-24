@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import api from "../utils/api";
+import { api } from "../utils/api"; // Import your API utility
 
 const initialState = {
-  token: localStorage.getItem("token"),
-  isAuthenticated: false,
+  user: null, // Make sure user is part of the initial state
   loading: false,
   error: null,
 };
@@ -12,53 +11,48 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setToken(state, action) {
-      state.token = action.payload;
-      localStorage.setItem("token", action.payload);
+    loginStart(state) {
+      state.loading = true;
+      state.error = null;
     },
-    setAuthenticated(state, action) {
-      state.isAuthenticated = action.payload;
+    loginSuccess(state, action) {
+      state.loading = false;
+      state.user = action.payload;
     },
-    setLoading(state, action) {
-      state.loading = action.payload;
-    },
-    setError(state, action) {
+    loginFailure(state, action) {
+      state.loading = false;
       state.error = action.payload;
     },
     logout(state) {
-      state.token = null;
-      state.isAuthenticated = false;
-      localStorage.removeItem("token");
+      state.user = null;
     },
   },
 });
 
-export const { setToken, setAuthenticated, setLoading, setError, logout } =
+export const { loginStart, loginSuccess, loginFailure, logout } =
   authSlice.actions;
 
-export const login = (userData) => async (dispatch) => {
-  dispatch(setLoading(true));
+export const login = (credentials) => async (dispatch) => {
+  dispatch(loginStart());
   try {
-    const response = await api.post("/users/login", userData);
-    dispatch(setToken(response.data.token));
-    dispatch(setAuthenticated(true));
-    dispatch(setLoading(false));
+    const response = await api.post("/auth/login", credentials);
+    const user = response.data;
+    localStorage.setItem("user", JSON.stringify(user)); // Save user to local storage
+    dispatch(loginSuccess(user));
   } catch (error) {
-    dispatch(setError(error.response.data.message));
-    dispatch(setLoading(false));
+    dispatch(loginFailure(error.message));
   }
 };
 
-export const register = (userData) => async (dispatch) => {
-  dispatch(setLoading(true));
-  try {
-    const response = await api.post("/users/register", userData);
-    dispatch(setToken(response.data.token));
-    dispatch(setAuthenticated(true));
-    dispatch(setLoading(false));
-  } catch (error) {
-    dispatch(setError(error.response.data.message));
-    dispatch(setLoading(false));
+export const logoutUser = () => (dispatch) => {
+  localStorage.removeItem("user");
+  dispatch(logout());
+};
+
+export const checkUser = () => (dispatch) => {
+  const user = localStorage.getItem("user");
+  if (user) {
+    dispatch(loginSuccess(JSON.parse(user)));
   }
 };
 

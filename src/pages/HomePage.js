@@ -57,7 +57,7 @@ const HomePage = () => {
         {products.map((product) => (
           <Grid item key={product.id} xs={12} sm={6} md={4}>
             <Card
-              sx={{ backgroundColor: "#bdbdbd" }}
+              // sx={{ backgroundColor: "#bdbdbd" }}
               onClick={() => handleOpenModal(product)}
             >
               <CardMedia

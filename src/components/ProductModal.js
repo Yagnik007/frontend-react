@@ -1,4 +1,6 @@
 import React from "react";
+import { addCartItem } from "../store/cartSlice";
+import { useDispatch } from "react-redux";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +13,12 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const ProductModal = ({ product, open, onClose, onAddToCart }) => {
+const ProductModal = ({ product, open, onClose}) => {
+  const dispatch = useDispatch();
+  const onAddToCart = (product) => {
+    dispatch(addCartItem(product)); // Dispatch the addToCart action with the selected product
+  };
+
   if (!product) return null;
 
   return (

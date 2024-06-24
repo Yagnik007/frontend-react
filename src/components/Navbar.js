@@ -19,12 +19,6 @@ const Navbar = () => {
           Home
         </Link>
         <Link
-          to="/products"
-          style={{ textDecoration: "none", color: "black", margin: "0 10px" }}
-        >
-          Products
-        </Link>
-        <Link
           to="/cart"
           style={{ textDecoration: "none", color: "black", margin: "0 10px" }}
         >

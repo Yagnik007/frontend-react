@@ -42,7 +42,8 @@ export const {
 export const fetchCartItems = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const response = await api.get("/cart");
+    const response = await api.post("/cart");
+    console.log(response);
     dispatch(setCartItems(response.data.items));
     dispatch(setLoading(false));
   } catch (error) {
@@ -54,7 +55,21 @@ export const fetchCartItems = () => async (dispatch) => {
 export const addCartItem = (item) => async (dispatch) => {
   try {
     // Call API to add item to cart
-    await api.post("/cart", item);
+    console.log(item);
+
+    const newCart = {
+      userId: "667823534550840a64045a7a",
+      items: [
+        {
+          productId: item._id,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+        },
+      ],
+    };
+    const res = await api.post("/cart/addToCart", newCart);
+    console.log(res);
     dispatch(addItemToCart(item));
   } catch (error) {
     dispatch(setError(error.response.data.message));

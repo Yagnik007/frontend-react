@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/productSlice";
-import { addItemToCart } from "../store/cartSlice"; // Import the addToCart action
+import { addCartItem, addItemToCart } from "../store/cartSlice"; // Import the addToCart action
 import {
   Grid,
   Card,
@@ -31,7 +31,8 @@ const HomePage = () => {
   }
 
   const handleAddToCart = (product) => {
-    dispatch(addItemToCart(product)); // Dispatch the addToCart action with the selected product
+    console.log("hello")
+    dispatch(addCartItem(product)); // Dispatch the addToCart action with the selected product
   };
 
   return (
@@ -48,7 +49,7 @@ const HomePage = () => {
                 component="img"
                 alt={product.name}
                 height="200" // Adjust the height to make the image smaller
-                width="100%" // Ensure the image fits the width of the card
+                // width="100%" // Ensure the image fits the width of the card
                 image={product.image}
                 title={product.name}
                 sx={{ margin: "10px", objectFit: "contain" }} // Ensure the entire image is visible without distortion

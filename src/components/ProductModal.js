@@ -1,6 +1,6 @@
 import React from "react";
 import { addCartItem } from "../store/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Dialog,
   DialogContent,
@@ -17,7 +17,7 @@ const ProductModal = ({ product, open, onClose }) => {
   const dispatch = useDispatch();
 
   const onAddToCart = (product) => {
-    const user = JSON.stringify(localStorage.getItem('user'))
+    const user = JSON.stringify(localStorage.getItem("user"));
     if (!user) {
       return;
     }

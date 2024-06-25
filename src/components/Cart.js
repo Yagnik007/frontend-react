@@ -95,6 +95,7 @@ const Cart = () => {
                     onClick={() =>
                       handleUpdateQuantity(item.productId, item.quantity + 1)
                     }
+                    disabled = {item.quantity >= 10}
                   >
                     <Add />
                   </IconButton>

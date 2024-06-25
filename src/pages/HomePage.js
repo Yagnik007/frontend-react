@@ -14,10 +14,10 @@ import {
   Button,
 } from "@mui/material";
 import ProductModal from "../components/ProductModal";
+import Toast, { showToast } from "../utils/toast";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
   const { products, loading, error } = useSelector((state) => state.product);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -35,9 +35,12 @@ const HomePage = () => {
   }
 
   const handleAddToCart = (product) => {
-    if (!user) {
-      return;
+    var user = localStorage.getItem("user")
+    if(!user){
+      showToast("Please Login to add items in cart!!","warn")
+      return
     }
+    user = JSON.stringify(user)
     const item = { ...product, userId: user.id }; // Add user ID to product item
     dispatch(addCartItem(item));
   };
@@ -121,6 +124,7 @@ const HomePage = () => {
         open={modalOpen}
         onClose={handleCloseModal}
       />
+      <Toast/>
     </Container>
   );
 };

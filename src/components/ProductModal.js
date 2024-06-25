@@ -1,7 +1,6 @@
 import React from "react";
 import { addCartItem } from "../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { checkUser } from "../store/authSlice";
 import {
   Dialog,
   DialogContent,
@@ -16,9 +15,9 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const ProductModal = ({ product, open, onClose }) => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
 
   const onAddToCart = (product) => {
+    const user = JSON.stringify(localStorage.getItem('user'))
     if (!user) {
       return;
     }

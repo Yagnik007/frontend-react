@@ -57,8 +57,7 @@ const HomePage = () => {
         {products.map((product) => (
           <Grid item key={product.id} xs={12} sm={6} md={4}>
             <Card
-              // sx={{ backgroundColor: "#bdbdbd" }}
-              onClick={() => handleOpenModal(product)}
+            // sx={{ backgroundColor: "#bdbdbd" }}
             >
               <CardMedia
                 component="img"
@@ -66,13 +65,24 @@ const HomePage = () => {
                 height="200"
                 image={product.image}
                 title={product.name}
+                onClick={() => handleOpenModal(product)}
                 sx={{ margin: "10px", objectFit: "contain", cursor: "pointer" }}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  onClick={() => handleOpenModal(product)}
+                >
                   {product.name}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
+                  onClick={() => handleOpenModal(product)}
+                >
                   {product.description}
                 </Typography>
                 <Typography
@@ -80,7 +90,7 @@ const HomePage = () => {
                   component="p"
                   sx={{ display: "flex", alignItems: "center" }}
                 >
-                  ${product.price}
+                  ₹{product.price}
                   <Button
                     variant="contained"
                     color="primary"

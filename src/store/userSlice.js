@@ -42,6 +42,8 @@ export const login = (userData) => async (dispatch) => {
   try {
     const response = await api.post("/users/login", userData);
     dispatch(setUser(response.data));
+    const user = JSON.stringify(response.data)
+    localStorage.setItem("user", user);
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.response.data.message));

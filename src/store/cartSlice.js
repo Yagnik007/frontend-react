@@ -19,8 +19,16 @@ const cartSlice = createSlice({
     },
     removeItemFromCart(state, action) {
       state.items = state.items.filter(
-        (item) => item.productId !== action.payload
+        (item) => item.productId._id !== action.payload
       );
+    },
+    updateCartItemQuantity(state, action) {
+      const item = state.items.find(
+        (item) => item.productId._id === action.payload.id._id
+      );
+      if (item) {
+        item.quantity = action.payload.quantity;
+      }
     },
     setLoading(state, action) {
       state.loading = action.payload;
@@ -37,13 +45,15 @@ export const {
   removeItemFromCart,
   setLoading,
   setError,
+  updateCartItemQuantity,
 } = cartSlice.actions;
 
 export const fetchCartItems = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const response = await api.post("/cart");
-    console.log(response);
+    const data = localStorage.getItem("user");
+    const user = JSON.parse(data);
+    const response = await api.get(`/cart/${user._id}/`);
     dispatch(setCartItems(response.data.items));
     dispatch(setLoading(false));
   } catch (error) {
@@ -54,17 +64,18 @@ export const fetchCartItems = () => async (dispatch) => {
 
 export const addCartItem = (item) => async (dispatch) => {
   try {
-    // Call API to add item to cart
     console.log(item);
-
+    const data = localStorage.getItem("user");
+    const user = JSON.parse(data);
     const newCart = {
-      userId: "667823534550840a64045a7a",
+      userId: user._id,
       items: [
         {
           productId: item._id,
           name: item.name,
           quantity: item.quantity,
           price: item.price,
+          image: item.image,
         },
       ],
     };
@@ -76,16 +87,24 @@ export const addCartItem = (item) => async (dispatch) => {
   }
 };
 
+export const updateCartItem = (productId, quantity) => async (dispatch) => {
+  try {
+    const data = localStorage.getItem("user");
+    const user = JSON.parse(data);
+    await api.put(`cart/updateCartItem/${user._id}`, {productId,quantity });
+  } catch (error) {
+    dispatch(setError(error.response?.data?.message || error.message));
+  }
+};
+
 export const removeCartItem = (productId) => async (dispatch) => {
   try {
-    // Call API to remove item from cart
-    await api.delete(`/cart/${productId}`);
-    dispatch(removeItemFromCart(productId));
+    const data = localStorage.getItem("user");
+    const user = JSON.parse(data);
+    await api.delete(`/cart/${user._id}/${productId}`,);
   } catch (error) {
     dispatch(setError(error.response.data.message));
   }
 };
-
-// You can add more actions for updating quantities, clearing cart, etc. as needed
 
 export default cartSlice.reducer;

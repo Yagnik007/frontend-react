@@ -29,6 +29,8 @@ export const register = (userData) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const response = await api.post("/users/register", userData);
+    const user = JSON.stringify(response.data);
+    localStorage.setItem("user", user);
     dispatch(setUser(response.data));
     dispatch(setLoading(false));
   } catch (error) {
@@ -42,7 +44,7 @@ export const login = (userData) => async (dispatch) => {
   try {
     const response = await api.post("/users/login", userData);
     dispatch(setUser(response.data));
-    const user = JSON.stringify(response.data)
+    const user = JSON.stringify(response.data);
     localStorage.setItem("user", user);
     dispatch(setLoading(false));
   } catch (error) {

@@ -1,8 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const checkCart = () => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      toast.warning("Login to access cart");
+    }
+  };
   return (
     <AppBar
       position="static"
@@ -21,6 +28,7 @@ const Navbar = () => {
         <Link
           to="/cart"
           style={{ textDecoration: "none", color: "black", margin: "0 10px" }}
+          onClick={() => checkCart()}
         >
           Cart
         </Link>

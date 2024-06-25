@@ -35,12 +35,12 @@ const HomePage = () => {
   }
 
   const handleAddToCart = (product) => {
-    var user = localStorage.getItem("user")
-    if(!user){
-      showToast("Please Login to add items in cart!!","warn")
-      return
+    var user = localStorage.getItem("user");
+    if (!user) {
+      showToast("Please Login to add items in cart!!", "warn");
+      return;
     }
-    user = JSON.stringify(user)
+    user = JSON.stringify(user);
     const item = { ...product, userId: user.id }; // Add user ID to product item
     dispatch(addCartItem(item));
   };
@@ -124,7 +124,7 @@ const HomePage = () => {
         open={modalOpen}
         onClose={handleCloseModal}
       />
-      <Toast/>
+      <Toast />
     </Container>
   );
 };

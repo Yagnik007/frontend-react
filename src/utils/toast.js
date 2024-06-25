@@ -1,3 +1,5 @@
+// src/components/Toast.js
+
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,6 +28,7 @@ const Toast = ({
 };
 
 export const showToast = (message, type = "info") => {
+  toast.dismiss();
   switch (type) {
     case "success":
       toast.success(message);

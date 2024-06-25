@@ -17,6 +17,7 @@ import ProductModal from "../components/ProductModal";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const { products, loading, error } = useSelector((state) => state.product);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -34,7 +35,11 @@ const HomePage = () => {
   }
 
   const handleAddToCart = (product) => {
-    dispatch(addCartItem(product)); // Dispatch the addToCart action with the selected product
+    if (!user) {
+      return;
+    }
+    const item = { ...product, userId: user.id }; // Add user ID to product item
+    dispatch(addCartItem(item));
   };
 
   const handleOpenModal = (product) => {

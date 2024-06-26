@@ -51,7 +51,7 @@ const Navbar = () => {
             fontFamily: "Rajdhani, sans-serif",
           }}
         >
-          Bazaar
+          Heeramandi
         </Typography>
         <Link
           to="/"

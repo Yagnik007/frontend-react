@@ -18,7 +18,7 @@ function App() {
     <Provider store={store}>
       <Router>
         <Navbar />
-        <Box sx={{ mt: 15 }}>
+        <Box sx={{ marginTop: "5rem", marginBottom: "5rem" }}>
           <div className="App">
             <Routes>
               <Route path="/" element={<HomePage />} />

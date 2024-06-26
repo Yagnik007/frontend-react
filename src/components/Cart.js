@@ -27,6 +27,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
@@ -36,10 +37,6 @@ const Cart = () => {
       dispatch(fetchCartItems());
     }
   }, [dispatch, navigate]);
-
-  useEffect(() => {
-    dispatch(fetchCartItems());
-  }, [dispatch]);
 
   const handleRemoveItem = (id) => {
     dispatch(removeItemFromCart(id._id));
@@ -70,20 +67,29 @@ const Cart = () => {
   };
 
   return (
-    <Container sx={{ marginTop: "20px", fontFamily: "Poppins" }}>
-      <Typography
-        variant="h4"
-        gutterBottom
-        sx={{ fontWeight: "bold", fontFamily: "Poppins" }}
-      >
+    <Container
+      sx={{
+        marginTop: "20px",
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
         Cart Items
       </Typography>
-      {cartItems.length === 0 ? (
-        <Typography variant="h6" sx={{ textAlign: "center", mt: 4 }}>
-          Cart is empty
-        </Typography>
-      ) : (
-        <>
+      {/* Cart Items Section */}
+      <Box
+        sx={{
+          flex: "1 1 70%",
+          maxHeight: "calc(100vh - 120px)",
+          overflowY: "auto",
+        }}
+      >
+        {cartItems.length === 0 ? (
+          <Typography variant="h6" sx={{ textAlign: "center", mt: 4 }}>
+            Cart is empty
+          </Typography>
+        ) : (
           <Grid container spacing={3}>
             {cartItems.map((item) => (
               <Grid item key={item.id} xs={12}>
@@ -110,7 +116,7 @@ const Cart = () => {
                       color="textSecondary"
                       component="div"
                     >
-                      ₹{item.price}
+                      $ {item.price}
                     </Typography>
                     <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
                       <IconButton
@@ -146,28 +152,42 @@ const Cart = () => {
               </Grid>
             ))}
           </Grid>
-          <Box sx={{ mt: 4, textAlign: "right" }}>
-            <Typography variant="h6" gutterBottom>
-              Subtotal: ₹{getTotal() - 40}
-            </Typography>
-            <Typography variant="h6" gutterBottom>
-              Shipping: ₹40
-            </Typography>
-            <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
-              Total: ₹{getTotal()} INR
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{ backgroundColor: "#000000", color: "#ffffff" }}
-              onClick={() => {
-                navigate("/checkout");
-              }}
-            >
-              Check out
-            </Button>
-          </Box>
-        </>
-      )}
+        )}
+      </Box>
+
+      {/* Payment Details Section */}
+      <Box
+        sx={{
+          flex: "0 1 30%",
+          padding: "20px",
+          position: "sticky",
+          top: "20px",
+          maxHeight: "calc(100vh - 120px)",
+          overflowY: "auto",
+        }}
+      >
+        <Typography variant="h6" gutterBottom>
+          Payment Details
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          Subtotal: $ {getTotal() - 40}
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          Shipping: $ 10
+        </Typography>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
+          Total: $ {getTotal()}
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: "#000000", color: "#ffffff" }}
+          onClick={() => {
+            navigate("/checkout");
+          }}
+        >
+          Check out
+        </Button>
+      </Box>
     </Container>
   );
 };

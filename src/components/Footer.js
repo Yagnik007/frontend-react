@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 
 const Footer = () => {
@@ -12,7 +12,6 @@ const Footer = () => {
         backgroundColor: "#D3D3D3",
         color: "black",
         boxShadow: "none",
-        mt: 5,
       }}
     >
       <Toolbar
@@ -30,7 +29,7 @@ const Footer = () => {
         >
           &copy; 2023 Bazaar
         </Typography>
-        <div>
+        {/* <div>
           <Link
             to="/about"
             style={{
@@ -64,7 +63,7 @@ const Footer = () => {
           >
             Terms of Service
           </Link>
-        </div>
+        </div> */}
       </Toolbar>
     </AppBar>
   );

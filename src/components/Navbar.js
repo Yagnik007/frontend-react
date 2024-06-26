@@ -111,7 +111,7 @@ const Navbar = () => {
                 fontFamily: "Rajdhani, sans-serif",
               }}
             >
-              Sign In
+              SIGN IN
             </Link>
             <Link
               to="/register"
@@ -122,7 +122,7 @@ const Navbar = () => {
                 fontFamily: "Rajdhani, sans-serif",
               }}
             >
-              Sign Up
+              SIGN UP
             </Link>
           </>
         )}

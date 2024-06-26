@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -11,7 +12,13 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const { user, loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
-
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      navigate("/");
+      toast.warning("Please login to access the cart");
+    }
+  }, [dispatch, navigate]);
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(register({ name, email, password }));
@@ -36,7 +43,6 @@ const RegisterPage = () => {
     >
       <Box
         sx={{
-          backgroundColor: "#bdbdbd",
           padding: "20px",
           borderRadius: "10px",
           width: "300px",

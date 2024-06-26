@@ -43,7 +43,7 @@ const LoginPage = () => {
     >
       <Box
         sx={{
-          backgroundColor: "#bdbdbd",
+          // backgroundColor: "#bdbdbd",
           padding: "20px",
           borderRadius: "10px",
           width: "300px",

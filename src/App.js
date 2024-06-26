@@ -11,6 +11,7 @@ import "./App.css";
 import Checkout from "./pages/CheckoutPage";
 import Contact from "./components/Contact";
 import { Box } from "@mui/material";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             </Routes>
           </div>
         </Box>
+        <Footer />
       </Router>
     </Provider>
   );

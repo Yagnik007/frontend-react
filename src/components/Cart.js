@@ -20,10 +20,22 @@ import {
 } from "@mui/material";
 import { Add, Remove, Delete } from "@mui/icons-material";
 import { debounce } from "../utils/debounce";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      navigate("/login");
+      toast.warning("Please login to access the cart");
+    } else {
+      dispatch(fetchCartItems());
+    }
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     dispatch(fetchCartItems());
@@ -50,77 +62,112 @@ const Cart = () => {
   }, 500);
 
   const getTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
+    const total = cartItems.reduce(
+      (total, item) => total + 40 + item.price * item.quantity,
       0
     );
+    return total.toFixed(2);
   };
 
   return (
-    <Container sx={{ marginTop: "20px" }}>
-      <Typography variant="h4" gutterBottom fontFamily={""}>
+    <Container sx={{ marginTop: "20px", fontFamily: "Poppins" }}>
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ fontWeight: "bold", fontFamily: "Poppins" }}
+      >
         Cart Items
       </Typography>
-      <Grid container spacing={3}>
-        {cartItems.map((item) => (
-          <Grid item key={item.id} xs={12}>
-            <Card sx={{ display: "flex", alignItems: "center" }}>
-              <CardMedia
-                component="img"
-                sx={{ width: 151 }}
-                image={item.image}
-                alt={item.name}
-              />
-              <CardContent sx={{ flex: "1 0 auto" }}>
-                <Typography component="div" variant="h5">
-                  {item.name}
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  color="textSecondary"
-                  component="div"
-                >
-                  ₹{item.price}
-                </Typography>
-                <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
-                  <IconButton
-                    onClick={() =>
-                      handleUpdateQuantity(item.productId, item.quantity - 1)
-                    }
-                  >
-                    <Remove />
-                  </IconButton>
-                  <Typography variant="body1">{item.quantity}</Typography>
-                  <IconButton
-                    onClick={() =>
-                      handleUpdateQuantity(item.productId, item.quantity + 1)
-                    }
-                    disabled = {item.quantity >= 10}
-                  >
-                    <Add />
-                  </IconButton>
-                </Box>
-              </CardContent>
-              <IconButton
-                onClick={() => handleRemoveItem(item.productId)}
-                sx={{ marginLeft: "auto" }}
-              >
-                <Delete />
-              </IconButton>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-      <Box sx={{ mt: 4, textAlign: "right" }}>
-        <Typography variant="h6">Subtotal: ₹{getTotal()}</Typography>
-        <Typography variant="h6">Shipping: ₹40</Typography>
-        <Typography variant="h5" gutterBottom>
-          Total: ₹{getTotal() + 40} INR
+      {cartItems.length === 0 ? (
+        <Typography variant="h6" sx={{ textAlign: "center", mt: 4 }}>
+          Cart is empty
         </Typography>
-        <Button variant="contained" color="primary">
-          Check out
-        </Button>
-      </Box>
+      ) : (
+        <>
+          <Grid container spacing={3}>
+            {cartItems.map((item) => (
+              <Grid item key={item.id} xs={12}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: 2,
+                    boxShadow: 3,
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{ width: 151 }}
+                    image={item.image}
+                    alt={item.name}
+                  />
+                  <CardContent sx={{ flex: "1 0 auto", ml: 2 }}>
+                    <Typography component="div" variant="h5">
+                      {item.name}
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      color="textSecondary"
+                      component="div"
+                    >
+                      ₹{item.price}
+                    </Typography>
+                    <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+                      <IconButton
+                        onClick={() =>
+                          handleUpdateQuantity(
+                            item.productId,
+                            item.quantity - 1
+                          )
+                        }
+                      >
+                        <Remove />
+                      </IconButton>
+                      <Typography variant="body1">{item.quantity}</Typography>
+                      <IconButton
+                        onClick={() =>
+                          handleUpdateQuantity(
+                            item.productId,
+                            item.quantity + 1
+                          )
+                        }
+                      >
+                        <Add />
+                      </IconButton>
+                    </Box>
+                  </CardContent>
+                  <IconButton
+                    onClick={() => handleRemoveItem(item.productId)}
+                    sx={{ marginLeft: "auto" }}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          <Box sx={{ mt: 4, textAlign: "right" }}>
+            <Typography variant="h6" gutterBottom>
+              Subtotal: ₹{getTotal() - 40}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+              Shipping: ₹40
+            </Typography>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
+              Total: ₹{getTotal()} INR
+            </Typography>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "#000000", color: "#ffffff" }}
+              onClick={() => {
+                navigate("/checkout");
+              }}
+            >
+              Check out
+            </Button>
+          </Box>
+        </>
+      )}
     </Container>
   );
 };

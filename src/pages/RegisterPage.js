@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -17,17 +17,21 @@ const RegisterPage = () => {
     dispatch(register({ name, email, password }));
   };
 
-  if (user && user._id) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (user && user._id) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   return (
     <Container
       sx={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
+        paddingTop: "100px",
         height: "100vh",
+        fontFamily: "Rajdhani, sans-serif",
       }}
     >
       <Box

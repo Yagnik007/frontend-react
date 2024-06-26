@@ -56,17 +56,11 @@ const HomePage = () => {
   };
 
   return (
-    <Container
-      sx={{
-        marginTop: "20px",
-      }}
-    >
+    <Container sx={{ marginTop: "20px" }}>
       <Grid container spacing={3}>
         {products.map((product) => (
           <Grid item key={product.id} xs={12} sm={6} md={4}>
-            <Card
-            // sx={{ backgroundColor: "#bdbdbd" }}
-            >
+            <Card sx={{ borderRadius: "16px" }}>
               <CardMedia
                 component="img"
                 alt={product.name}
@@ -90,6 +84,14 @@ const HomePage = () => {
                   color="textSecondary"
                   component="p"
                   onClick={() => handleOpenModal(product)}
+                  sx={{
+                    height: "48px", // Adjust based on desired line height
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                  }}
                 >
                   {product.description}
                 </Typography>

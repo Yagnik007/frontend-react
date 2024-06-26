@@ -7,6 +7,9 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 const theme = createTheme({
+  typography: {
+    fontFamily: "Rajdhani, sans-serif"
+  },
   palette: {
     background: {
       default: "#D3D3D3", // Setting the desired background color to black

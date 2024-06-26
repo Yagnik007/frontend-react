@@ -1,20 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, isLogin } from "../store/userSlice";
 
 const Navbar = () => {
+  const [isLoginState, setIsLoginState] = useState(false);
   const navigate = useNavigate();
-  const user = localStorage.getItem("user");
+  const { user, islogin } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const localUser = localStorage.getItem("user");
+
+  useEffect(() => {
+    if (islogin) {
+      setIsLoginState(true);
+    }
+  }, [islogin]);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    setIsLoginState(false);
+    dispatch(isLogin());
     toast.success("Successfully logged out");
+    dispatch(setUser(null));
     navigate("/login");
   };
 
   const checkCart = () => {
-    if (!user) {
+    if (!user && !localUser) {
       toast.warning("Login to access cart");
     } else {
       navigate("/cart");
@@ -23,26 +37,45 @@ const Navbar = () => {
 
   return (
     <AppBar
-      position="static"
-      sx={{ backgroundColor: "#D3D3D3", color: "black" }}
+      position="fixed"
+      sx={{ backgroundColor: "#D3D3D3", color: "black", boxShadow: "none" }}
     >
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{
+            flexGrow: 1,
+            fontWeight: "bold",
+            ml: 10,
+            fontFamily: "Rajdhani, sans-serif",
+          }}
+        >
           Bazaar
         </Typography>
         <Link
           to="/"
-          style={{ textDecoration: "none", color: "black", margin: "0 10px" }}
+          style={{
+            textDecoration: "none",
+            color: "black",
+            margin: "0 10px",
+            fontFamily: "Rajdhani, sans-serif",
+          }}
         >
           Home
         </Link>
         <Link
           to="/contact"
-          style={{ textDecoration: "none", color: "black", margin: "0 10px" }}
+          style={{
+            textDecoration: "none",
+            color: "black",
+            margin: "0 10px",
+            fontFamily: "Rajdhani, sans-serif",
+          }}
         >
           Contact
         </Link>
-        {user ? (
+        {isLoginState ? (
           <>
             <Link
               to="/cart"
@@ -50,6 +83,7 @@ const Navbar = () => {
                 textDecoration: "none",
                 color: "black",
                 margin: "0 10px",
+                fontFamily: "Rajdhani, sans-serif",
               }}
               onClick={checkCart}
             >
@@ -57,10 +91,10 @@ const Navbar = () => {
             </Link>
             <Button
               onClick={handleLogout}
-              style={{
-                textDecoration: "none",
+              sx={{
                 color: "black",
                 margin: "0 10px",
+                fontFamily: "Rajdhani, sans-serif",
               }}
             >
               Logout
@@ -74,6 +108,7 @@ const Navbar = () => {
                 textDecoration: "none",
                 color: "black",
                 margin: "0 10px",
+                fontFamily: "Rajdhani, sans-serif",
               }}
             >
               Sign In
@@ -84,6 +119,7 @@ const Navbar = () => {
                 textDecoration: "none",
                 color: "black",
                 margin: "0 10px",
+                fontFamily: "Rajdhani, sans-serif",
               }}
             >
               Sign Up

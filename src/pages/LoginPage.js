@@ -2,13 +2,28 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+
+  // State variables
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
@@ -16,8 +31,10 @@ const LoginPage = () => {
       toast.warning("Please login to access the cart");
     }
   }, [dispatch, navigate]);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +60,6 @@ const LoginPage = () => {
     >
       <Box
         sx={{
-          // backgroundColor: "#bdbdbd",
           padding: "20px",
           borderRadius: "10px",
           width: "300px",
@@ -63,11 +79,24 @@ const LoginPage = () => {
           />
           <TextField
             label="Password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
             margin="normal"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleTogglePasswordVisibility}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Button
             variant="contained"

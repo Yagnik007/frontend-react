@@ -43,17 +43,6 @@ const Contact = () => {
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label="Email"
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
               label="Subject"
               name="subject"
               value={form.subject}

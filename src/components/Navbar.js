@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { AppBar, Toolbar, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, isLogin } from "../store/userSlice";
@@ -62,7 +62,7 @@ const Navbar = () => {
             fontFamily: "Rajdhani, sans-serif",
           }}
         >
-          Home
+          HOME
         </Link>
         <Link
           to="/contact"
@@ -73,7 +73,7 @@ const Navbar = () => {
             fontFamily: "Rajdhani, sans-serif",
           }}
         >
-          Contact
+          CONTACT
         </Link>
         {isLoginState ? (
           <>
@@ -87,18 +87,20 @@ const Navbar = () => {
               }}
               onClick={checkCart}
             >
-              Cart
+              CART
             </Link>
-            <Button
-              onClick={handleLogout}
-              sx={{
+            <Link
+              to="/login"
+              style={{
+                textDecoration: "none",
                 color: "black",
                 margin: "0 10px",
                 fontFamily: "Rajdhani, sans-serif",
               }}
+              onClick={handleLogout}
             >
-              Logout
-            </Button>
+              LOGOUT
+            </Link>
           </>
         ) : (
           <>

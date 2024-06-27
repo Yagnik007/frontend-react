@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Rajdhani, sans-serif"
+    fontFamily: "Rajdhani, sans-serif",
   },
   palette: {
     background: {

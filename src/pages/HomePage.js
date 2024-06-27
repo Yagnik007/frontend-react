@@ -100,7 +100,7 @@ const HomePage = () => {
                   component="p"
                   sx={{ display: "flex", alignItems: "center" }}
                 >
-                  ₹{product.price}
+                  $ {product.price}
                   <Button
                     variant="contained"
                     color="primary"

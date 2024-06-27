@@ -38,6 +38,10 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      toast.error("Email and Password are required");
+      return;
+    }
     dispatch(login({ email, password }));
   };
 
@@ -76,6 +80,7 @@ const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Password"
@@ -84,6 +89,7 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
             margin="normal"
+            required
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

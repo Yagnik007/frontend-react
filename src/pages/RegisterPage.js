@@ -38,6 +38,10 @@ const RegisterPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!name || !email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
     dispatch(register({ name, email, password }));
   };
 
@@ -78,6 +82,7 @@ const RegisterPage = () => {
             onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Email"
@@ -86,6 +91,7 @@ const RegisterPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Password"
@@ -94,6 +100,7 @@ const RegisterPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
             margin="normal"
+            required
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

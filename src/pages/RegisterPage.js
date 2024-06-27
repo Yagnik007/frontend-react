@@ -68,8 +68,8 @@ const RegisterPage = () => {
         <Typography variant="h4" gutterBottom>
           Register
         </Typography>
-        {loading && <Typography>Loading...</Typography>}
-        {error && <Typography>{error}</Typography>}
+        {/* {loading && <Typography>Loading...</Typography>}
+        {error && <Typography>{error}</Typography>} */}
         <form onSubmit={handleSubmit}>
           <TextField
             label="Name"

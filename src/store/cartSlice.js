@@ -64,7 +64,6 @@ export const fetchCartItems = () => async (dispatch) => {
 
 export const addCartItem = (item) => async (dispatch) => {
   try {
-    console.log(item);
     const data = localStorage.getItem("user");
     const user = JSON.parse(data);
     const newCart = {
@@ -80,7 +79,6 @@ export const addCartItem = (item) => async (dispatch) => {
       ],
     };
     const res = await api.post("/cart/addToCart", newCart);
-    console.log(res);
     dispatch(addItemToCart(item));
   } catch (error) {
     dispatch(setError(error.response.data.message));

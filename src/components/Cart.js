@@ -194,8 +194,8 @@ const Cart = () => {
                 sx={{ marginY: 2 }}
               />
               <Typography variant="body2" color="textSecondary">
-                Add ${freeDeliveryThreshold - subtotal} more to get free
-                delivery!
+                Add ${freeDeliveryThreshold - subtotal} worth of products more
+                to get free delivery!
               </Typography>
             </>
           )}

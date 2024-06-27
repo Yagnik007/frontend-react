@@ -68,7 +68,6 @@ export const isLogin = () => async (dispatch) => {
   try {
     const user = localStorage.getItem("user");
     if (user) {
-      console.log("in isLogin");
       dispatch(checkUser(true));
       dispatch(setLoading(false));
     } else {

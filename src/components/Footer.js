@@ -27,7 +27,7 @@ const Footer = () => {
             fontFamily: "Rajdhani, sans-serif",
           }}
         >
-          &copy; 2023 Heeramandi
+          &copy; 2023 E-lectronics
         </Typography>
         {/* <div>
           <Link
